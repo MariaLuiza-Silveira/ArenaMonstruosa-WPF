@@ -1,0 +1,723 @@
+﻿<Window x:Class="ArenaMonstruosa.MainWindow"
+        Icon="/RaposaIco.ico"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Arena Monstruosa - Batalha Mítica"
+        Height="780"
+        Width="1050"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Background="#0D0D11">
+
+    <Window.Resources>
+        <LinearGradientBrush x:Key="FundoJanela" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#0D0D11" Offset="0"/>
+            <GradientStop Color="#050507" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="FundoCard" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#9916120E" Offset="0"/>
+            <GradientStop Color="#990F0C0A" Offset="1"/>
+        </LinearGradientBrush>
+
+        <SolidColorBrush x:Key="BordaDourada" Color="#8C6F3D"/>
+        <SolidColorBrush x:Key="TextoDourado" Color="#D9A05B"/>
+
+        <Style x:Key="TituloSecao" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextoDourado}"/>
+            <Setter Property="FontFamily" Value="Georgia"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="5,0,0,0"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#0A0806"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#4A3C28"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="5,0,5,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#1A1510"/>
+            <Setter Property="Foreground" Value="#D9A05B"/>
+            <Setter Property="FontFamily" Value="Georgia"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="BorderBrush" Value="#4A3C28"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Border Background="{TemplateBinding Background}" Padding="5,8">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="BotaoMedieval" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Georgia"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                                BorderBrush="#4A3C28" 
+                                BorderThickness="1.5" 
+                                CornerRadius="4" 
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Opacity" Value="0.85"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ScrollBarLineButton" TargetType="RepeatButton">
+            <Setter Property="Visibility" Value="Collapsed"/>
+        </Style>
+
+        <Style x:Key="ScrollBarPageButton" TargetType="RepeatButton">
+            <Setter Property="Visibility" Value="Collapsed"/>
+        </Style>
+
+        <Style x:Key="ScrollThumbMedieval" TargetType="Thumb">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Border x:Name="Chrome" 
+                        Background="#8C6F3D" 
+                        CornerRadius="4" 
+                        MinHeight="20" 
+                        MinWidth="8"/>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="#D9A05B"/>
+                            </Trigger>
+                            <Trigger Property="IsDragging" Value="True">
+                                <Setter TargetName="Chrome" Property="Background" Value="#FFF3D1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="ScrollBar">
+            <Setter Property="Background" Value="#0A0806"/>
+            <Setter Property="Width" Value="8"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollBar">
+                        <Grid x:Name="Bg" SnapsToDevicePixels="true">
+                            <Track x:Name="PART_Track" IsDirectionReversed="true">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageUpCommand"/>
+                                </Track.DecreaseRepeatButton>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageDownCommand"/>
+                                </Track.IncreaseRepeatButton>
+                                <Track.Thumb>
+                                    <Thumb Style="{StaticResource ScrollThumbMedieval}"/>
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="templateRoot" 
+                        Background="#0A0806" 
+                        BorderBrush="#4A3C28" 
+                        BorderThickness="1" 
+                        CornerRadius="4" 
+                        SnapsToDevicePixels="true">
+
+                            <Grid HorizontalAlignment="Right" Width="24">
+                                <Path x:Name="arrow" 
+                              Data="M0,0 L4,4 L8,0 Z" 
+                              Fill="{StaticResource TextoDourado}" 
+                              HorizontalAlignment="Center" 
+                              VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="templateRoot" Property="BorderBrush" Value="#8C6F3D"/>
+                                <Setter TargetName="arrow" Property="Fill" Value="#FFF3D1"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter TargetName="templateRoot" Property="BorderBrush" Value="#D9A05B"/>
+                                <Setter TargetName="arrow" Property="Data" Value="M0,4 L4,0 L8,4 Z"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Georgia"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Padding" Value="6,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
+                            <Popup x:Name="PART_Popup" 
+                           AllowsTransparency="true" 
+                           Placement="Bottom" 
+                           Margin="1" 
+                           IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}" >
+                                <Border x:Name="dropDownBorder" 
+                                Background="#0A0806" 
+                                BorderBrush="#8C6F3D" 
+                                BorderThickness="1.5" 
+                                CornerRadius="4"
+                                MaxHeight="{TemplateBinding MaxDropDownHeight}" 
+                                MinWidth="{Binding ActualWidth, ElementName=templateRoot}">
+                                    <ScrollViewer x:Name="DropDownScrollViewer">
+                                        <Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
+                                            <Canvas x:Name="canvas" HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0"/>
+                                            <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                        </Grid>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+
+                            <ToggleButton x:Name="toggleButton" 
+                                  Background="{TemplateBinding Background}" 
+                                  BorderBrush="{TemplateBinding BorderBrush}" 
+                                  IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                                  Style="{StaticResource ComboBoxToggleButton}"/>
+
+                            <ContentPresenter x:Name="contentPresenter" 
+                                      Content="{TemplateBinding SelectionBoxItem}" 
+                                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" 
+                                      ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" 
+                                      ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}" 
+                                      Margin="{TemplateBinding Padding}" 
+                                      IsHitTestVisible="false" 
+                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="6,4"/>
+            <Setter Property="FontFamily" Value="Georgia"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="Bd" 
+                        Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}" 
+                        BorderThickness="0" 
+                        Padding="{TemplateBinding Padding}" 
+                        SnapsToDevicePixels="true">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Bd" Property="Background" Value="#1F1914"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextoDourado}"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter TargetName="Bd" Property="Background" Value="#4A3C28"/>
+                                <Setter Property="Foreground" Value="#FFF3D1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="{StaticResource FundoJanela}">
+        <Image Source="/Imagens/fundo_medieval.png" 
+               Stretch="UniformToFill" 
+               Opacity="1.00" 
+               HorizontalAlignment="Center" 
+               VerticalAlignment="Center"/>
+
+        <Grid x:Name="PainelArena" Margin="15">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Height="120" Margin="0,0,0,-90">
+                <Button x:Name="btnHistoria"
+       Width="169"
+Height="53"
+HorizontalAlignment="Left"
+VerticalAlignment="Center"
+Panel.ZIndex="20"
+        Click="BtnHistoria_Click"
+        Cursor="Hand"
+        Background="Transparent"
+        BorderThickness="0" Margin="699,0,0,0">
+
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid Background="Transparent">
+
+                                <Image x:Name="imgHistoria"
+                       Source="/Imagens/BotaoHistPers.png"
+                       Stretch="Uniform" 
+                       Width="160" 
+                       Height="70" Margin="10,-14,-1,-3"/>
+
+                            </Grid>
+
+                            <ControlTemplate.Triggers>
+
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="imgHistoria"
+                            Property="Opacity"
+                            Value="0.85"/>
+                                </Trigger>
+
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="imgHistoria"
+                            Property="Opacity"
+                            Value="0.7"/>
+                                </Trigger>
+
+                            </ControlTemplate.Triggers>
+
+                        </ControlTemplate>
+                    </Button.Template>
+
+                </Button>
+                <Button x:Name="btnSair"
+            Width="169"
+            Height="24"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Panel.ZIndex="20"
+            Click="BtnSair_Click" 
+            Margin="0,36,0,0"
+            Cursor="Hand">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid Background="Transparent">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="81*"/>
+                                    <ColumnDefinition Width="88*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="/Imagens/BotaoSair.png" 
+                           Stretch="Uniform" 
+                           Width="150" 
+                           Height="60" 
+                           x:Name="imgSair" Grid.ColumnSpan="2" Margin="-21,-30,0,-46"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="imgSair" Property="Opacity" Value="0.85"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="imgSair" Property="Opacity" Value="0.7"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="0,70,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.1*"/>
+                    <ColumnDefinition Width="0.9*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" Margin="0,0,10,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Background="{StaticResource FundoCard}" BorderBrush="{StaticResource BordaDourada}" BorderThickness="1.5" CornerRadius="6" Padding="15" Margin="0,0,0,12">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                                <TextBlock Text="🛡️" FontSize="16" VerticalAlignment="Center">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect Color="#D9A05B" BlurRadius="10" ShadowDepth="0" Opacity="0.90"/>
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                                <TextBlock Text="GESTÃO DE JOGADORES" Style="{StaticResource TituloSecao}"/>
+                            </StackPanel>
+
+                            <UniformGrid Columns="4" Margin="0,0,0,15">
+                                <StackPanel Margin="4">
+                                    <TextBlock Text="Personagem:" Foreground="#AAA" FontSize="11" Margin="0,0,0,4"/>
+                                    <ComboBox x:Name="cbNome" DisplayMemberPath="Nome" Height="32"/>
+                                </StackPanel>
+                                <StackPanel Margin="4">
+                                    <TextBlock Text="Vida:" Foreground="#AAA" FontSize="11" Margin="0,0,0,4"/>
+                                    <TextBox x:Name="txtVida"/>
+                                </StackPanel>
+                                <StackPanel Margin="4">
+                                    <TextBlock Text="Ataque:" Foreground="#AAA" FontSize="11" Margin="0,0,0,4"/>
+                                    <TextBox x:Name="txtAtaque"/>
+                                </StackPanel>
+                                <StackPanel Margin="4">
+                                    <TextBlock Text="Defesa:" Foreground="#AAA" FontSize="11" Margin="0,0,0,4"/>
+                                    <TextBox x:Name="txtDefesa"/>
+                                </StackPanel>
+                            </UniformGrid>
+
+                            <UniformGrid Columns="4" Margin="0,5,0,15">
+                                <Button x:Name="btnAdicionar" Click="BtnAdicionar_Click" Margin="2" Cursor="Hand" Height="48">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Grid Background="Transparent">
+                                                <Image Source="/Imagens/BotaoAdicionar.png" Stretch="Fill" x:Name="imgBtn"/>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="imgBtn" Property="Opacity" Value="0.85"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="imgBtn" Property="Opacity" Value="0.7"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+
+                                <Button x:Name="btnEditar" Click="BtnEditar_Click" Margin="2" Cursor="Hand" Height="48">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Grid Background="Transparent">
+                                                <Image Source="/Imagens/BotaoEditar.png" Stretch="Fill" x:Name="imgBtn"/>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="imgBtn" Property="Opacity" Value="0.85"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="imgBtn" Property="Opacity" Value="0.7"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+
+                                <Button x:Name="btnEliminar" Click="BtnEliminar_Click" Margin="2" Cursor="Hand" Height="48">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Grid Background="Transparent">
+                                                <Image Source="/Imagens/BotaoEliminar.png" Stretch="Fill" x:Name="imgBtn"/>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="imgBtn" Property="Opacity" Value="0.85"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="imgBtn" Property="Opacity" Value="0.7"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+
+                                <Button x:Name="btnLimpar" Click="BtnLimpar_Click" Margin="2" Cursor="Hand" Height="48">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Grid Background="Transparent">
+                                                <Image Source="/Imagens/BotaoLimpar.png" Stretch="Fill" x:Name="imgBtn"/>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="imgBtn" Property="Opacity" Value="0.85"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="imgBtn" Property="Opacity" Value="0.7"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </UniformGrid>
+
+                            <DataGrid x:Name="dgJogadores" 
+          HeadersVisibility="Column"
+          GridLinesVisibility="None"
+          Height="158" 
+          AutoGenerateColumns="False" 
+          IsReadOnly="True" 
+          Background="#0A0806" 
+          BorderThickness="0" 
+          RowBackground="#16120E" 
+          AlternatingRowBackground="#1F1914" 
+          Foreground="White" 
+          SelectionChanged="dgJogadores_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="40">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding Imagem}" Width="24" Height="24"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="Personagem" Binding="{Binding Nome}" Width="*"/>
+                                    <DataGridTextColumn Header="Vida" Binding="{Binding Vida}" Width="60"/>
+                                    <DataGridTextColumn Header="Ataque" Binding="{Binding Ataque}" Width="60"/>
+                                    <DataGridTextColumn Header="Defesa" Binding="{Binding Defesa}" Width="60"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{StaticResource FundoCard}" BorderBrush="{StaticResource BordaDourada}" BorderThickness="1.5" CornerRadius="6" Padding="15" Margin="0,356,0,0" Grid.RowSpan="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="📜" FontSize="16" VerticalAlignment="Center">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect Color="#D9A05B" BlurRadius="10" ShadowDepth="0" Opacity="0.90"/>
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                                <TextBlock Text="HISTÓRICO DE BATALHAS" Style="{StaticResource TituloSecao}"/>
+                            </StackPanel>
+
+                            <DataGrid x:Name="dgBatalhas" 
+          HeadersVisibility="Column"
+          GridLinesVisibility="None"
+          AutoGenerateColumns="False" 
+          IsReadOnly="True" 
+          Background="#0A0806" 
+          BorderThickness="0" 
+          RowBackground="#16120E" 
+          Foreground="White" Margin="0,29,0,40" Grid.RowSpan="3">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Jogador 1" Binding="{Binding Jogador1}" Width="*"/>
+                                    <DataGridTextColumn Header="Jogador 2" Binding="{Binding Jogador2}" Width="*"/>
+                                    <DataGridTextColumn Header="Vencedor" Binding="{Binding Vencedor}" Width="*"/>
+                                    <DataGridTextColumn Header="Data" Binding="{Binding DataDaBatalha, StringFormat=\{0:dd/MM/yyyy HH:mm\}}" Width="110"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <Button x:Name="btnLimparHistorico" Grid.Row="2" Height="65" Width="240" Margin="0,49,0,-34" Click="BtnLimparHistorico_Click" HorizontalAlignment="Center" Cursor="Hand">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Grid Background="Transparent">
+                                            <Image Source="/Imagens/BotaoLimparHistorico.png" Stretch="Uniform" x:Name="imgBtn"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="imgBtn" Property="Opacity" Value="0.85"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="imgBtn" Property="Opacity" Value="0.7"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <Grid Grid.Column="1" Margin="10,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1.3*"/>
+                        <RowDefinition Height="0.7*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Background="{StaticResource FundoCard}" BorderBrush="#5C2E7E" BorderThickness="1.5" CornerRadius="6" Padding="15" Margin="0,0,0,46">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+                                <TextBlock Text="⚔️" FontSize="16" VerticalAlignment="Center">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect Color="#A27BDE" BlurRadius="12" ShadowDepth="0" Opacity="0.90"/>
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                                <TextBlock Text="ARENA DE BATALHA" Foreground="#A27BDE" FontFamily="Georgia" FontSize="14" FontWeight="Bold" Margin="5,0,0,0" Height="15"/>
+                            </StackPanel>
+
+                            <Grid Grid.Row="1" Margin="0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                    <ComboBox x:Name="cbJogador1" DisplayMemberPath="Nome" Margin="0,0,0,8" SelectionChanged="cbJogador1_SelectionChanged"/>
+                                    <Border BorderBrush="#4A3C28" BorderThickness="1" CornerRadius="4" Background="#0A0806" Padding="5">
+                                        <Grid>
+                                            <Image x:Name="imgJ1" Height="130" Stretch="Uniform"/>
+                                            <Border HorizontalAlignment="Right" Opacity=" 0.7" VerticalAlignment="Bottom" Width="40" Height="40" Background="#CC000000" CornerRadius="5" Padding="5" Margin="0,0,9,13">
+                                                <StackPanel Margin="8,12,-8,-12">
+                                                    <TextBlock x:Name="txtHP1" Text="HP: 0" Foreground="#E5C158" FontSize="8" FontWeight="Bold" FontFamily="Palatino Linotype"/>
+                                                    <TextBlock x:Name="txtATK1" Text="ATK: 0" Foreground="#E5C158" FontSize="8" FontWeight="Bold" FontFamily="Palatino Linotype"/>
+                                                    <TextBlock x:Name="txtDEF1" Text="DEF: 0" Foreground="#E5C158" FontSize="8" FontWeight="Bold" FontFamily="Palatino Linotype"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </StackPanel>
+
+                                <Image Grid.Column="1" Source="/Imagens/ImgVS.png" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center" Width="106"/>
+
+                                <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                    <ComboBox x:Name="cbJogador2" DisplayMemberPath="Nome" Margin="0,0,0,8" SelectionChanged="cbJogador2_SelectionChanged"/>
+                                    <Border BorderBrush="#4A3C28" BorderThickness="1" CornerRadius="4" Background="#0A0806" Padding="5">
+                                        <Grid>
+                                            <Image x:Name="imgJ2" Height="130" Stretch="Uniform"/>
+                                            <Border HorizontalAlignment="Right" Opacity=" 0.7" VerticalAlignment="Bottom" Width="40" Height="40" Background="#CC000000" CornerRadius="5" Padding="5" Margin="0,0,9,13">
+                                                <StackPanel Margin="8,12,-8,-12">
+                                                    <TextBlock x:Name="txtHP2" Text="HP: 0" Foreground="#AA7A44" FontSize="8" FontWeight="Bold" FontFamily="Palatino Linotype"/>
+                                                    <TextBlock x:Name="txtATK2" Text="ATK: 0" Foreground="#AA7A44" FontSize="8" FontWeight="Bold" FontFamily="Palatino Linotype"/>
+                                                    <TextBlock x:Name="txtDEF2" Text="DEF: 0" Foreground="#AA7A44" FontSize="8" FontWeight="Bold" FontFamily="Palatino Linotype"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </StackPanel>
+                            </Grid>
+
+                            <Button x:Name="btnBatalha" Grid.Row="2" Height="80" Cursor="Hand" Margin="0,5,0,0" Click="BtnBatalha_Click">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Grid Background="Transparent">
+                                            <Image Source="/Imagens/BotaoIniciarBatalha.png" Stretch="Uniform" x:Name="imgBtn"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="imgBtn" Property="Opacity" Value="0.85"/>
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="imgBtn" Property="Opacity" Value="0.7"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+                    </Border>
+
+                    <Border Background="{StaticResource FundoCard}" BorderBrush="#27AE60" BorderThickness="1.5" CornerRadius="6" Padding="15" Margin="0,412,0,0" Grid.RowSpan="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,0" HorizontalAlignment="Center">
+                                <TextBlock Text="🏆" FontSize="15" VerticalAlignment="Center" Margin="0,0,5,0">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect Color="#2ECC71" BlurRadius="10" ShadowDepth="0" Opacity="1.00"/>
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                                <TextBlock Text="RESULTADO DA BATALHA" Foreground="#2ECC71" FontFamily="Georgia" FontSize="13" FontWeight="Bold" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <Grid Grid.Row="1" Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0" BorderBrush="#2ECC71" BorderThickness="1" CornerRadius="40" Width="80" Height="80" VerticalAlignment="Center" Margin="10,0">
+                                    <Border.OpacityMask>
+                                        <VisualBrush Visual="{Binding ElementName=ClipBorder}"/>
+                                    </Border.OpacityMask>
+                                    <Grid>
+                                        <Border x:Name="ClipBorder" Background="Black" CornerRadius="40"/>
+                                        <Image x:Name="imgVencedor" Stretch="UniformToFill"/>
+                                    </Grid>
+                                </Border>
+
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="VENCEDOR" Foreground="#2ECC71" FontSize="12" FontWeight="Bold"/>
+                                    <TextBlock x:Name="lblNomeVencedor" Text="---" Foreground="White" FontSize="24" FontWeight="Black" FontFamily="Georgia"/>
+                                    <TextBlock x:Name="txtBatalhaStatus" Text="Aguardando combate..." Foreground="#AAA" TextWrapping="Wrap" FontSize="12" Margin="0,4,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                   
+                </Grid>
+            </Grid>
+           
+        </Grid>
+
+        <Image x:Name="ImgTitulo"
+               Source="/Imagens/ImgTitulo.png"
+               Height="170"
+               Stretch="Uniform"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="374,11,0,0">
+            <Image.Effect>
+                <DropShadowEffect Color="#000000"
+                                  BlurRadius="20"
+                                  ShadowDepth="8"
+                                  Direction="315"
+                                  Opacity="1"/>
+            </Image.Effect>
+        </Image>
+        
+    </Grid>
+</Window>
