@@ -191,24 +191,23 @@ Entre as personalizações encontram-se:
 ### Resultado da batalha
 
 <img width="341" height="131" alt="Resultado_Batalha1" src="https://github.com/user-attachments/assets/ff161f5c-6ace-4a48-b1dc-5d70bc2c51e2" />
-<img width="121" height="170" alt="Resultado_Batalha4" src="https://github.com/user-attachments/assets/e14e8c0e-1a84-4f5e-bb04-ad84d52238c4" />
-<img width="339" height="128" alt="Resultado_Batalha3" src="https://github.com/user-attachments/assets/a5b3d06d-a9b7-4974-9dc4-1c9dfc95c870" />
 <img width="341" height="128" alt="Resultado_Batalha2" src="https://github.com/user-attachments/assets/b62abb32-c39a-4bf5-940b-9d6e473b0841" />
-
+<img width="339" height="128" alt="Resultado_Batalha3" src="https://github.com/user-attachments/assets/a5b3d06d-a9b7-4974-9dc4-1c9dfc95c870" />
+<img width="121" height="170" alt="Resultado_Batalha4" src="https://github.com/user-attachments/assets/e14e8c0e-1a84-4f5e-bb04-ad84d52238c4" />
 
 ---
 
 ### História dos personagens
 
-<img width="775" height="506" alt="Personagem_Feiticeiro" src="https://github.com/user-attachments/assets/113a6d0e-a6ec-419a-8ac2-fe64244dcd33" />
 <img width="776" height="505" alt="Personagem_Fada" src="https://github.com/user-attachments/assets/661de419-cb38-4a81-944b-1a1cf0267bef" />
-<img width="779" height="501" alt="Personagem_Elfo" src="https://github.com/user-attachments/assets/4041c729-e3ad-47bc-9ef4-a6f6ca1296d1" />
-<img width="775" height="501" alt="Personagem_Duende" src="https://github.com/user-attachments/assets/796f726b-9e50-4712-8515-09ae9de14841" />
 <img width="774" height="503" alt="Personagem_Dragao" src="https://github.com/user-attachments/assets/ee7524d7-e40a-4657-b45d-f57f34ce5694" />
+<img width="778" height="501" alt="Personagem_Orc" src="https://github.com/user-attachments/assets/04b2a798-0dda-4f43-8465-13b1eee2095d" />
 <img width="779" height="500" alt="Personagem_Cavaleiro" src="https://github.com/user-attachments/assets/727ab407-5aad-44af-a9b2-27e43f25c036" />
+<img width="775" height="506" alt="Personagem_Feiticeiro" src="https://github.com/user-attachments/assets/113a6d0e-a6ec-419a-8ac2-fe64244dcd33" />
+<img width="779" height="501" alt="Personagem_Elfo" src="https://github.com/user-attachments/assets/4041c729-e3ad-47bc-9ef4-a6f6ca1296d1" />
 <img width="777" height="503" alt="Personagem_Troll" src="https://github.com/user-attachments/assets/dc3bae46-394b-41c8-b75f-73e6863fbb5f" />
 <img width="777" height="501" alt="Personagem_Rei" src="https://github.com/user-attachments/assets/b67ee453-2015-4fc9-a51d-eaeb99575bb4" />
-<img width="778" height="501" alt="Personagem_Orc" src="https://github.com/user-attachments/assets/04b2a798-0dda-4f43-8465-13b1eee2095d" />
+<img width="775" height="501" alt="Personagem_Duende" src="https://github.com/user-attachments/assets/796f726b-9e50-4712-8515-09ae9de14841" />
 <img width="776" height="500" alt="Personagem_Gigante" src="https://github.com/user-attachments/assets/db67bd02-10a4-407c-9741-c9f8e8ce13ed" />
 
 
